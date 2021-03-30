@@ -3,3 +3,10 @@ A silly lil program that lets a user input an image of a petri dish on a dark ba
 
 Usage:
 ```python main.py ./sample_data/IMG_3722.jpg```
+
+
+Installation:
+```
+pip install -r requirements.txt
+```
+Or use conda if you're so inclined.
