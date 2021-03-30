@@ -69,7 +69,7 @@ def count_cells(image, show_blobs=False):
 
 
 if __name__ == "__main__":
-    fpath = "./sample_data/IMG_3722.jpg"  # TODO: replace with args
+    fpath = sys.argv[1]  # TODO: replace with args
     original_image = imread(fpath)
     plate, mask, centroid = detect_plate(original_image)
     overlay = plate.copy()
