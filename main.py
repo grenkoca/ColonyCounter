@@ -8,7 +8,9 @@ import matplotlib.pyplot as plt
 from scipy.ndimage import binary_fill_holes, binary_erosion, binary_dilation
 from skimage.morphology.selem import disk
 from skimage.feature import blob_dog, blob_log, blob_doh
+import argparse
 import warnings
+
 warnings.simplefilter("ignore")
 
 def detect_plate(image):
@@ -68,12 +70,22 @@ def count_cells(image, show_blobs=False):
     return len(blobs_dog)
 
 
-if __name__ == "__main__":
-    fpath = sys.argv[1]  # TODO: replace with args
-    original_image = imread(fpath)
-    plate, mask, centroid = detect_plate(original_image)
-    overlay = plate.copy()
-    overlay[~mask] = [0, 0, 0]
+def parse_args():
+    argument_parser = argparse.ArgumentParser()
+    argument_parser.add_argument('inputs', nargs="*", help="Path(s) to image(s) you want to use. Example: ./sample_data/IMG_3722.jpg")
+    argument_parser.add_argument('-show_results', default=False)
+    return argument_parser.parse_args()
 
-    n_cells = count_cells(overlay)
-    print("%i colonies were found." % n_cells)
+
+if __name__ == "__main__":
+    args = parse_args()
+    fpaths = args.inputs
+    show = args.show_results
+
+    for fpath in fpaths:
+        original_image = imread(fpath)
+        plate, mask, centroid = detect_plate(original_image)
+        overlay = plate.copy()
+        overlay[~mask] = [0, 0, 0]
+        n_cells = count_cells(overlay, show)
+        print("%s : %i colonies " % (fpath, n_cells))
