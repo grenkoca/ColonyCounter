@@ -5,6 +5,7 @@ A silly lil program that lets a user input an image of a petri dish on a dark ba
 ```python main.py ./sample_data/IMG_3722.jpg -show_results True```
 
 Additionally you can run this sequentially on as many images as you want. Try running the same image twice:
+
 ```python main.py ./sample_data/IMG_3722.jpg ./sample_data/IMG_3722.jpg```
 
 
