@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import sys
+import os
 import numpy as np
+from pathlib import Path
 from skimage.io import imread
 from skimage.exposure import equalize_adapthist
 from skimage.color import rgb2lab, gray2rgb, rgb2gray
@@ -15,7 +17,7 @@ import warnings
 
 warnings.simplefilter("ignore")
 
-def detect_plate(image):
+def detect_plate(image, save_imgs=False, fpath=None):
     """
     Crops to plate and outputs mask (assumes it was taken on a dark background)
     :param image:
@@ -28,6 +30,10 @@ def detect_plate(image):
     filled = binary_fill_holes(edges)
     eroded = binary_erosion(filled, disk(10))
     mask = binary_dilation(eroded, disk(10))  # This is the mask
+
+    if save_imgs:
+        plt.imsave(fpath, mask)
+        plt.close()
 
     mask_area = np.count_nonzero(mask)
     plate_radius = np.sqrt(mask_area/np.pi)
@@ -50,12 +56,12 @@ def detect_plate(image):
     return cropped_image, cropped_mask, new_center
 
 
-def count_cells(image, show_blobs=False):
+def count_cells(image, save_blobs=False, fpath=None):
     image_gray = rgb2gray(image)
     image_gray = equalize_adapthist(image_gray)
 
     blobs_dog = blob_dog(image_gray, max_sigma=5, min_sigma=1, threshold=0.05)
-    if show_blobs:
+    if save_blobs:
         blobs_dog[:, 2] = blobs_dog[:, 2] * np.sqrt(2)
 
         fig, ax = plt.subplots(1, 1)
@@ -67,7 +73,8 @@ def count_cells(image, show_blobs=False):
         ax.set_axis_off()
 
         plt.tight_layout()
-        plt.show()
+        plt.savefig(fpath)
+        plt.close()
 
     return len(blobs_dog)
 
@@ -75,19 +82,30 @@ def count_cells(image, show_blobs=False):
 def parse_args():
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument('inputs', nargs="*", help="Path(s) to image(s) you want to use. Example: ./sample_data/IMG_3722.jpg")
-    argument_parser.add_argument('--show_results', action='store_true')
+    argument_parser.add_argument('--image_location', type=str)
     return argument_parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
     fpaths = args.inputs
-    show = args.show_results
+    output_folder = args.image_location
+
+    if output_folder is not None:
+        save_imgs = True
+        os.makedirs(output_folder + "/plate_masks", exist_ok=True)
+        os.makedirs(output_folder + "/colonies", exist_ok=True)
+    else:
+        save_imgs = False
+        output_folder = None
 
     for fpath in fpaths:
+        file_stem = Path(fpath).stem.split('.')[0]
+        plate_mask = f"{output_folder}/plate_masks/{file_stem}.png"
+        colonies = f"{output_folder}/colonies/{file_stem}.jpg"
         original_image = imread(fpath)
-        plate, mask, centroid = detect_plate(original_image)
+        plate, mask, centroid = detect_plate(original_image, save_imgs, plate_mask)
         overlay = plate.copy()
         overlay[~mask] = [0, 0, 0]
-        n_cells = count_cells(overlay, show)
+        n_cells = count_cells(overlay, save_imgs, colonies)
         print("%s : %i colonies " % (fpath, n_cells))
