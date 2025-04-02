@@ -14,6 +14,7 @@ Additionally you can run this sequentially on as many images as you want. Try ru
 
 ```
 pip install -r requirements.txt
+chmod +x ./count_colonies
 ```
 
 Or use conda if you're so inclined.
