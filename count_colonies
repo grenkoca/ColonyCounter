@@ -82,14 +82,14 @@ def count_cells(image, save_blobs=False, fpath=None):
 def parse_args():
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument('inputs', nargs="*", help="Path(s) to image(s) you want to use. Example: ./sample_data/IMG_3722.jpg")
-    argument_parser.add_argument('--image_location', type=str)
+    argument_parser.add_argument('--save_imgs', type=str)
     return argument_parser.parse_args()
 
 
 if __name__ == "__main__":
     args = parse_args()
     fpaths = args.inputs
-    output_folder = args.image_location
+    output_folder = args.save_imgs
 
     if output_folder is not None:
         save_imgs = True

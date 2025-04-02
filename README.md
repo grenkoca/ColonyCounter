@@ -10,6 +10,10 @@ Additionally you can run this sequentially on as many images as you want. Try ru
 
 ```./count_colonies ./sample_data/IMG_3722.jpg ./sample_data/IMG_3732.jpg```
 
+Finally, you can also opt to save the intermediate images used in counting colonies. Namely, the binary plate detection mask and the annotated colonies.
+
+```./count_colonies ./sample_data/IMG_3722.jpg ./sample_data/IMG_3732.jpg --save_imgs ./testrun```
+
 ## Installation
 
 ```
