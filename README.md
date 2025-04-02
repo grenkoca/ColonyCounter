@@ -22,3 +22,11 @@ chmod +x ./count_colonies
 ```
 
 Or use conda if you're so inclined.
+
+## Example output
+
+```
+❯ ./count_colonies sample_data/IMG_3722.jpg sample_data/IMG_3732.jpg --save_imgs ./testrun
+sample_data/IMG_3722.jpg : 3284 colonies 
+sample_data/IMG_3732.jpg : 2326 colonies 
+```
