@@ -38,3 +38,4 @@ None of these are particularly hard, but I just need to get to them. If you want
 - [ ] Output additional CSV file to summarize 
 - [ ] Improve colony detection (size/shape/intensity variability, etc.)
 - [ ] Implement pen removal
+- [ ] Add option for partitioning plates
