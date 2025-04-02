@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import sys
 import numpy as np
 from skimage.io import imread
@@ -6,7 +8,7 @@ from skimage.color import rgb2lab, gray2rgb, rgb2gray
 from skimage.feature import canny
 import matplotlib.pyplot as plt
 from scipy.ndimage import binary_fill_holes, binary_erosion, binary_dilation
-from skimage.morphology.selem import disk
+from skimage.morphology import disk
 from skimage.feature import blob_dog, blob_log, blob_doh
 import argparse
 import warnings
@@ -73,7 +75,7 @@ def count_cells(image, show_blobs=False):
 def parse_args():
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument('inputs', nargs="*", help="Path(s) to image(s) you want to use. Example: ./sample_data/IMG_3722.jpg")
-    argument_parser.add_argument('-show_results', default=False)
+    argument_parser.add_argument('--show_results', action='store_true')
     return argument_parser.parse_args()
 
 
