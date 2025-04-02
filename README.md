@@ -30,3 +30,11 @@ Or use conda if you're so inclined.
 sample_data/IMG_3722.jpg : 3284 colonies 
 sample_data/IMG_3732.jpg : 2326 colonies 
 ```
+
+# Future improvements
+
+None of these are particularly hard, but I just need to get to them. If you want to contribute, please do!
+
+- [ ] Output additional CSV file to summarize 
+- [ ] Improve colony detection (size/shape/intensity variability, etc.)
+- [ ] Implement pen removal
